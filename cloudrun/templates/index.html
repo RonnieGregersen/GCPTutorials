@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ronnie Gregersen's Demo Website</title>
+  <style>
+    body {
+      background-color: #ffe6e6;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+    
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      color: #ff4d4d;
+      text-align: center;
+      margin-top: 100px;
+    }
+    
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ronnie Gregersen's Demo Website</h1>
+  
+  <a href="https://www.linkedin.com/in/ronnie-gregersen/" class="button">LinkedIn</a>
+  <a href="webshop" class="button">Webshop</a>
+
+
+  <h1>Send en besked til pubsub</h1>
+  <form action="/call_function" method="post">
+      <label for="name">Skriv dit navn:</label>
+      <input type="Navn" id="name" name="name" required>
+      <label for="Organization">Hvilken organisation er du fra?:</label>
+      <input type="Organisation" id="Organization" name="Organization">
+      <input type="submit" value="Send" class="button">
+  </form>
+  <p id="result"></p>
+
+  <script>
+      document.querySelector('form').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent form submission
+          var name = document.getElementById('name').value;
+          var Organization = document.getElementById('Organization').value;
+          // Send an AJAX request to the server
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/call_function');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onload = function() {
+              if (xhr.status === 200) {
+                  document.getElementById('result').textContent = xhr.responseText;
+              } else {
+                  console.log('Request failed.  Returned status of ' + xhr.status);
+              }
+          };
+          xhr.send(JSON.stringify({ 'name': name, 'organization': Organization }));
+      });
+  </script>
+
+</body>
+</html>
